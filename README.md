@@ -27,6 +27,13 @@ GET /myWeather?city={ciudad}
 | feelsLike | `Number` | <p>Sensación térmica actual expresada en ºC.</p> |
 
 
+#### Respuesta - `Error`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| errorCode | `String` | <p>Número del error producido</p> |
+| error | `String` | <p>Descripción del error producido</p> |
+
 ### Instalación 🔧
 
 _Para su instalación, deberás ejecutar el comando NPM INSTALL (Si te encuentras en Windows)_
