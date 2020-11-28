@@ -11,6 +11,10 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.get("/", (req, res) => {
+  res.send("<h1>GET /myWeather?city={city}</h1>");
+})
 //GET Method
 app.get("/myWeather", async (req, res) => {
   //Get current weather by City Name
