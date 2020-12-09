@@ -1,45 +1,17 @@
 const express = require("express");
 const app = express();
-const axios = require("axios");
 const PORT = process.env.PORT || 5500;
-const APIKEY = "585e775f380c4ec83b6050b2a8a1794d";
+const weatherController = require("./services/weatherController")
+const middlewares = require("./services/middlewares")
 
-//CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+//CORS Middleware
+app.use(middlewares.CORS);
 
-app.get("/", (req, res) => {
-  res.send("<h1>GET /myWeather?city={city}</h1>");
-})
-//GET Method
-app.get("/myWeather", async (req, res) => {
-  //Get current weather by City Name
-  const city = req.query.city;
-  try {
-    const { status, data } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&units=metric`
-    )
-    //console.log(data)
-    res.status(200)
-    res.json({
-      coords: data.coord,
-      cityResponse: data.name,
-      temperature: data.main.temp,
-      feelsLike: data.main.feels_like
-    })
-  }
-  catch (e) {
-    //console.log(e)
-    res.json({
-      errorCode: e.response.data.cod,
-      error: e.response.data.message
-    })
-  }
-})
+//GET "/" => Gives information about the use of de Express-NodeJS APP 
+app.get("/", weatherController.infoGET)
+//GET "/myWeather" => Gives information about the city in the request
+app.get("/myWeather", weatherController.getWeather);
+
 //Server
 app.listen(PORT, () => {
   console.log(`Server is listening in port ${PORT}`)
